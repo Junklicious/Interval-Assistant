@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var intervalTimer: IntervalTimer = IntervalTimer()
+    @EnvironmentObject var intervalTimer: IntervalTimer
+    
     var body: some View {
         
         VStack {
             ZStack {
-                CircularProgressView(progress: intervalTimer.progress, color: .blue)
+                CircularProgressView(progress: intervalTimer.getProgress(), color: .blue)
                 Text(intervalTimer.calculateTimer())
                     .font(.largeTitle)
                     .bold()
@@ -24,11 +25,13 @@ struct ContentView: View {
                 Button {
                     intervalTimer.playPause()
                 } label: {
-                    Image(systemName: intervalTimer.isPlaying ? "pause.fill" : "play.fill")
+                    Image(systemName: intervalTimer.isPlaying ?
+                          "pause.fill" : "play.fill")
                         .imageScale(.large)
                         .frame(width: 80, height: 80)
                         .foregroundStyle(.white)
-                        .background(Color.green)
+                        .background(intervalTimer.isPlaying ?
+                                    Color.blue : Color.green)
                         .clipShape(Circle())
                 }
                 .buttonStyle(.borderless)
@@ -48,6 +51,9 @@ struct ContentView: View {
                 .buttonStyle(.borderless)
                 .controlSize(.extraLarge)
             }
+            .onReceive(intervalTimer.timer, perform: { _ in
+                intervalTimer.timerUpdate()
+            })
             .padding(32)
         }
         .padding()
@@ -56,4 +62,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .environmentObject(IntervalTimer())
 }

@@ -12,6 +12,7 @@ struct Interval_AssistantApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(IntervalTimer())
         }
     }
 }

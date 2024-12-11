@@ -5,37 +5,81 @@
 //  Created by Lane Kersten on 12/10/24.
 //
 
-import Foundation
+import SwiftUI
 
-struct IntervalTimer {
-    var isPlaying: Bool = false
-    var testTime: TimeInterval = 10000
-    var endDate: Date?
-    var progress: Double = 0.8
-    var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+class IntervalTimer: ObservableObject {
+    var intervalArray: [Int] = [5, 2]
+    var loopNumber: Int = 2
+    var currentIntervalIndex: Int = 0
+    @Published var isPlaying: Bool = true
+    @Published var timeRemaining: TimeInterval?
+    @Published var endDate: Date?
+    @Published var timer = Timer.publish(every: 0.2, on: .main, in: .common).autoconnect()
     
-    
-    mutating func playPause() {
-        if (isPlaying) {
-            self.timer.upstream.connect().cancel()
-            return
+    func timerUpdate() {
+        if (timeRemaining == nil) {
+            timeRemaining = TimeInterval(getCurrentInverval())
         }
-        self.timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+        if (endDate == nil) {
+            calculateEndDate()
+        }
+        
+        timeRemaining = endDate!.distance(to: Date()) * -1
+        
+        if (timeRemaining! <= 0) {
+            intervalOver()
+        }
     }
     
-    mutating func reset() {
-        progress = 0
+    func intervalOver() {
+        currentIntervalIndex += 1
+        if (currentIntervalIndex < getMaxIntervals()) {
+            reset()
+        } else {
+            timer.upstream.connect().cancel()
+            isPlaying = false
+        }
+    }
+    
+    func playPause() {
+        if (isPlaying) {
+            self.timer.upstream.connect().cancel()
+            isPlaying = false
+            endDate = nil
+            return
+        }
+        self.timer = Timer.publish(every: 0.2, on: .main, in: .common).autoconnect()
+        isPlaying = true
+    }
+    
+    func reset() {
+        timeRemaining = TimeInterval(getCurrentInverval())
+        endDate = nil
     }
     
     func calculateTimer() -> String {
-        let interval = 130
-        let minutes = String(format: "%02d", interval / 60)
-        let seconds = String(format: "%02d", interval % 60)
+        guard let timeRemaining else { return "" }
+        let minutes = String(format: "%02d", Int(timeRemaining) / 60)
+        let seconds = String(format: "%02d", Int(timeRemaining) % 60)
         return "\(minutes):\(seconds)"
     }
     
-    mutating func calculateEndDate() {
-        endDate = Date().addingTimeInterval(testTime)
+    func calculateEndDate() {
+        guard let timeRemaining else { return }
+        endDate = Date().addingTimeInterval(timeRemaining)
+    }
+    
+    func getCurrentInverval() -> Int {
+        return intervalArray[currentIntervalIndex % intervalArray.count]
+    }
+    
+    func getProgress() -> Double {
+        guard let timeRemaining else { return 0 }
+        return 1 - (Double(timeRemaining) / Double(getCurrentInverval()))
+    }
+    
+    func getMaxIntervals() -> Int {
+        return intervalArray.count * loopNumber
     }
     
 }
