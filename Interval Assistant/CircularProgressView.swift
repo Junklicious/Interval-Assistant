@@ -11,6 +11,7 @@ struct CircularProgressView: View {
     let width: CGFloat = 15
     let progress: Double
     let color: Color
+    let animation: Animation
     var body: some View {
         ZStack {
             Circle()
@@ -28,12 +29,12 @@ struct CircularProgressView: View {
                     )
                 )
                 .rotationEffect(.degrees(-90))
-                .animation(.easeOut, value: progress)
+                .animation(animation, value: progress)
         }
     }
 }
 
 #Preview {
-    CircularProgressView(progress: 0.8, color: .pink)
+    CircularProgressView(progress: 0.8, color: .pink, animation: .easeIn)
         .frame(width: 200, height: 200)
 }

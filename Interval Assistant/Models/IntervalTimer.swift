@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 class IntervalTimer: ObservableObject {
-    var intervalArray: [Int] = [5, 2]
+    var intervalArray: [Int] = [20, 10]
     var loopNumber: Int = 2
     var currentIntervalIndex: Int = 0
     @Published var isPlaying: Bool = true
@@ -32,6 +33,9 @@ class IntervalTimer: ObservableObject {
     }
     
     func intervalOver() {
+        //TODO: Implement proper sound on timer end
+//        let systemSoundID: SystemSoundID = 1013
+//        AudioServicesPlaySystemSound(systemSoundID)
         currentIntervalIndex += 1
         if (currentIntervalIndex < getMaxIntervals()) {
             reset()
@@ -80,6 +84,10 @@ class IntervalTimer: ObservableObject {
     
     func getMaxIntervals() -> Int {
         return intervalArray.count * loopNumber
+    }
+    
+    func getCurrentLoop() -> Int {
+        return (currentIntervalIndex / intervalArray.count) + 1
     }
     
 }

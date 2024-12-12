@@ -12,51 +12,23 @@ struct ContentView: View {
     
     var body: some View {
         
-        VStack {
-            ZStack {
-                CircularProgressView(progress: intervalTimer.getProgress(), color: .blue)
-                Text(intervalTimer.calculateTimer())
-                    .font(.largeTitle)
-                    .bold()
+        NavigationStack {
+            VStack {
+                IntervalTimerView()
             }
-            .frame(width: 250, height: 250)
-            
-            HStack {
-                Button {
-                    intervalTimer.playPause()
+            .toolbar {
+                NavigationLink {
+                    
                 } label: {
-                    Image(systemName: intervalTimer.isPlaying ?
-                          "pause.fill" : "play.fill")
-                        .imageScale(.large)
-                        .frame(width: 80, height: 80)
-                        .foregroundStyle(.white)
-                        .background(intervalTimer.isPlaying ?
-                                    Color.blue : Color.green)
-                        .clipShape(Circle())
+                    Image(systemName: "plus")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 30, height: 30)
+                        .foregroundStyle(.blue)
+                        .padding()
                 }
-                .buttonStyle(.borderless)
-                .controlSize(.extraLarge)
-                
-                Spacer()
-                
-                Button {
-                    intervalTimer.reset()
-                } label: {
-                    Image(systemName: "arrow.trianglehead.counterclockwise.rotate.90")
-                        .frame(width: 80, height: 80)
-                        .foregroundStyle(.white)
-                        .background(Color.orange)
-                        .clipShape(Circle())
-                }
-                .buttonStyle(.borderless)
-                .controlSize(.extraLarge)
             }
-            .onReceive(intervalTimer.timer, perform: { _ in
-                intervalTimer.timerUpdate()
-            })
-            .padding(32)
         }
-        .padding()
     }
 }
 
