@@ -28,7 +28,7 @@ struct EditTimerView: View {
                                binding: $activeSeconds)
                 Spacer()
             }
-            
+            .frame(height: 120)
             Text("Rest Timer")
             HStack {
                 Spacer()
@@ -41,6 +41,7 @@ struct EditTimerView: View {
                                binding: $restSeconds)
                 Spacer()
             }
+            .frame(height: 120)
             Text("Repeat")
             HStack {
                 Spacer()
@@ -52,6 +53,16 @@ struct EditTimerView: View {
                 .pickerStyle(.wheel)
                 .frame(width: 100, height: 130)
                 Spacer()
+            }
+            .frame(height: 120)
+            Button {
+                
+            } label: {
+                HStack {
+                    Spacer()
+                    Text("Done")
+                    Spacer()
+                }
             }
         }
     }

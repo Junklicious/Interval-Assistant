@@ -20,7 +20,7 @@ struct ContentView: View {
                 NavigationLink {
                     
                 } label: {
-                    Image(systemName: "plus")
+                    Image(systemName: "timer")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 30, height: 30)

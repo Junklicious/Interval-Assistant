@@ -13,9 +13,13 @@ struct TestView: View {
         VStack {
             Spacer()
             ZStack {
-                CircularProgressView(progress: -progress + 1, color: .blue, animation: .easeIn)
+                CircularProgressView(progress: -progress + 1,
+                                     color: .blue,
+                                     animation: .easeIn)
                     .frame(width: 170, height: 170)
-                CircularProgressView(progress: progress, color: .pink, animation: .easeIn)
+                CircularProgressView(progress: progress,
+                                     color: .colorTheme.accent,
+                                     animation: .easeIn)
                 Text("\(progress * 100, specifier: "%.0f")")
                     .font(.largeTitle)
                     .bold()
