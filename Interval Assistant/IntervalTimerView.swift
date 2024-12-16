@@ -15,11 +15,13 @@ struct IntervalTimerView: View {
         
         VStack {
             Text("Set \(intervalTimer.getCurrentLoop()) of \(intervalTimer.loopNumber)")
-                .font(.headline)
+                .font(.title3)
                 .bold()
                 .padding(32)
             ZStack {
-                CircularProgressView(progress: intervalTimer.getProgress(), color: .blue, animation: progressAnimation)
+                CircularProgressView(progress: intervalTimer.getProgress(),
+                                     color: .blue,
+                                     animation: progressAnimation)
                 Text(intervalTimer.calculateTimer())
                     .font(.largeTitle)
                     .bold()
@@ -58,10 +60,17 @@ struct IntervalTimerView: View {
                 .controlSize(.extraLarge)
             }
             .onReceive(intervalTimer.timer, perform: { _ in
+                if (!intervalTimer.isPlaying) {
+                    intervalTimer.stopTimer()
+                    return
+                }
                 if (progressAnimation != .linear(duration: 0.2)) {
                     progressAnimation = .linear(duration: 0.2)
                 }
-                intervalTimer.timerUpdate()
+                if (intervalTimer.timerUpdate()) {
+                    progressAnimation = .linear(duration: 0)
+                }
+
             })
             .padding(32)
         }

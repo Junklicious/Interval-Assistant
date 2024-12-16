@@ -12,12 +12,16 @@ class IntervalTimer: ObservableObject {
     var intervalArray: [Int] = [20, 10]
     var loopNumber: Int = 2
     var currentIntervalIndex: Int = 0
-    @Published var isPlaying: Bool = true
+    @Published var isPlaying: Bool = false
     @Published var timeRemaining: TimeInterval?
     @Published var endDate: Date?
-    @Published var timer = Timer.publish(every: 0.2, on: .main, in: .common).autoconnect()
+    @Published var timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
     
-    func timerUpdate() {
+    init() {
+        timeRemaining = TimeInterval(getCurrentInverval())
+    }
+    
+    func timerUpdate() -> Bool {
         if (timeRemaining == nil) {
             timeRemaining = TimeInterval(getCurrentInverval())
         }
@@ -29,35 +33,40 @@ class IntervalTimer: ObservableObject {
         
         if (timeRemaining! <= 0) {
             intervalOver()
+            return true
         }
+        return false
     }
     
     func intervalOver() {
         //TODO: Implement proper sound on timer end
 //        let systemSoundID: SystemSoundID = 1013
 //        AudioServicesPlaySystemSound(systemSoundID)
-        currentIntervalIndex += 1
-        if (currentIntervalIndex < getMaxIntervals()) {
+        if (currentIntervalIndex < getMaxIntervals() - 1) {
+            currentIntervalIndex += 1
             reset()
         } else {
-            timer.upstream.connect().cancel()
-            isPlaying = false
+            stopTimer()
         }
     }
     
     func playPause() {
         if (isPlaying) {
-            self.timer.upstream.connect().cancel()
-            isPlaying = false
-            endDate = nil
+            stopTimer()
             return
         }
-        self.timer = Timer.publish(every: 0.2, on: .main, in: .common).autoconnect()
+        self.timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
         isPlaying = true
     }
     
     func reset() {
         timeRemaining = TimeInterval(getCurrentInverval())
+        endDate = nil
+    }
+    
+    func stopTimer() {
+        self.timer.upstream.connect().cancel()
+        isPlaying = false
         endDate = nil
     }
     

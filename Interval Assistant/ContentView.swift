@@ -18,7 +18,7 @@ struct ContentView: View {
             }
             .toolbar {
                 NavigationLink {
-                    
+                    EditTimerView()
                 } label: {
                     Image(systemName: "timer")
                         .resizable()
