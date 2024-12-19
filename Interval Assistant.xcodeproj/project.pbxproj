@@ -27,6 +27,7 @@
 		E62141A82CA2740E00FBC182 /* Interval Assistant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Interval Assistant.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E62141B82CA2741000FBC182 /* Interval AssistantTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Interval AssistantTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E62141C22CA2741000FBC182 /* Interval AssistantUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Interval AssistantUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E62141F12D1211A000FBC182 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -75,6 +76,7 @@
 		E621419F2CA2740E00FBC182 = {
 			isa = PBXGroup;
 			children = (
+				E62141F12D1211A000FBC182 /* README.md */,
 				E62141AA2CA2740E00FBC182 /* Interval Assistant */,
 				E62141BB2CA2741000FBC182 /* Interval AssistantTests */,
 				E62141C52CA2741000FBC182 /* Interval AssistantUITests */,

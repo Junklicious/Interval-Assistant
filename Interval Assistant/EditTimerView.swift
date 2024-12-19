@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct EditTimerView: View {
+    @EnvironmentObject var intervalTimer: IntervalTimer
+    @Environment(\.dismiss) var dismiss
     @State var activeMinutes: Int = 0
     @State var activeSeconds: Int = 0
     @State var restMinutes: Int = 0
@@ -56,7 +58,8 @@ struct EditTimerView: View {
             }
             .frame(height: 120)
             Button {
-                
+                applyTimerSettings()
+                dismiss()
             } label: {
                 HStack {
                     Spacer()
@@ -65,6 +68,13 @@ struct EditTimerView: View {
                 }
             }
         }
+    }
+    
+    func applyTimerSettings() {
+        intervalTimer.intervalArray = [activeMinutes * 60 + activeSeconds,
+                                       restMinutes * 60 + restSeconds]
+        intervalTimer.loopNumber = numberOfRepeats
+        intervalTimer.resetFullSet()
     }
 }
 

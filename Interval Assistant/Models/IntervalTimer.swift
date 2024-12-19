@@ -64,6 +64,11 @@ class IntervalTimer: ObservableObject {
         endDate = nil
     }
     
+    func resetFullSet() {
+        currentIntervalIndex = 0
+        reset()
+    }
+    
     func stopTimer() {
         self.timer.upstream.connect().cancel()
         isPlaying = false
