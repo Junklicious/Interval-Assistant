@@ -48,12 +48,17 @@ struct IntervalTimerView: View {
                 
                 Button {
                     progressAnimation = .linear(duration: 0)
-                    intervalTimer.reset()
+                    if (intervalTimer.isPlaying) {
+                        intervalTimer.reset()
+                    } else {
+                        intervalTimer.resetFullSet()
+                    }
+                
                 } label: {
-                    Image(systemName: "arrow.trianglehead.counterclockwise.rotate.90")
+                    Image(systemName: intervalTimer.isPlaying ? "backward.fill" : "arrow.trianglehead.counterclockwise.rotate.90")
                         .frame(width: 80, height: 80)
                         .foregroundStyle(.white)
-                        .background(Color.orange)
+                        .background(intervalTimer.isPlaying ? Color.orange : Color.red)
                         .clipShape(Circle())
                 }
                 .buttonStyle(.borderless)
