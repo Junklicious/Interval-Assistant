@@ -75,6 +75,10 @@ struct EditTimerView: View {
                                        restMinutes * 60 + restSeconds]
         intervalTimer.loopNumber = numberOfRepeats
         intervalTimer.resetFullSet()
+        
+        // Set defaults to save timer for future sessions
+        UserDefaults.init().set(intervalTimer.intervalArray, forKey: UserDefaults.intervalArrayKey)
+        UserDefaults.init().set(intervalTimer.loopNumber, forKey: UserDefaults.intervalLoopNumberKey)
     }
 }
 

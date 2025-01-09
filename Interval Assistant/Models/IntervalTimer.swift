@@ -9,8 +9,8 @@ import SwiftUI
 import AVFoundation
 
 class IntervalTimer: ObservableObject {
-    var intervalArray: [Int] = [20, 10]
-    var loopNumber: Int = 2
+    var intervalArray: [Int]
+    var loopNumber: Int
     var currentIntervalIndex: Int = 0
     @Published var isPlaying: Bool = false
     @Published var timeRemaining: TimeInterval?
@@ -18,6 +18,12 @@ class IntervalTimer: ObservableObject {
     @Published var timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
     
     init() {
+        let userDefaults = UserDefaults.standard
+        intervalArray = userDefaults.array(forKey: UserDefaults.intervalArrayKey) as? [Int] ?? [30, 10]
+        loopNumber = userDefaults.integer(forKey: UserDefaults.intervalLoopNumberKey)
+        if (loopNumber == 0) {
+            loopNumber = 2
+        }
         timeRemaining = TimeInterval(getCurrentInverval())
     }
     
