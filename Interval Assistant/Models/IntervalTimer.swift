@@ -16,6 +16,7 @@ class IntervalTimer: ObservableObject {
     @Published var timeRemaining: TimeInterval?
     @Published var endDate: Date?
     @Published var timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
+    var audioPlayer: AVAudioPlayer?
     
     init() {
         let userDefaults = UserDefaults.standard
@@ -45,9 +46,7 @@ class IntervalTimer: ObservableObject {
     }
     
     func intervalOver() {
-        //TODO: Implement proper sound on timer end
-//        let systemSoundID: SystemSoundID = 1013
-//        AudioServicesPlaySystemSound(systemSoundID)
+        playAlert()
         if (currentIntervalIndex < getMaxIntervals() - 1) {
             currentIntervalIndex += 1
             reset()
@@ -110,4 +109,16 @@ class IntervalTimer: ObservableObject {
         return (currentIntervalIndex / intervalArray.count) + 1
     }
     
+    func playAlert() {
+        let fileName = currentIntervalIndex % 2 == 0 ? "Ping_down" : "Ping_up"
+        let path = Bundle.main.path(forResource: fileName, ofType:"mp3")!
+        let url = URL(fileURLWithPath: path)
+
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer?.play()
+        } catch {
+            // Failed to load audio file
+        }
+    }
 }
