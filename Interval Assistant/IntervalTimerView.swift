@@ -18,15 +18,20 @@ struct IntervalTimerView: View {
                 .font(.title3)
                 .bold()
                 .padding(32)
+            
             ZStack {
+                Circle()
+                    .fill(Color.gray.opacity(0.15))
+                    .frame(width: 300, height: 300)
                 CircularProgressView(progress: intervalTimer.getProgress(),
                                      color: .blue,
                                      animation: progressAnimation)
+                    .frame(width: 250, height: 250)
                 Text(intervalTimer.calculateTimer())
                     .font(.largeTitle)
                     .bold()
             }
-            .frame(width: 250, height: 250)
+            .frame(width: 300, height: 300)
             
             HStack {
                 Button {
@@ -43,6 +48,7 @@ struct IntervalTimerView: View {
                 }
                 .buttonStyle(.borderless)
                 .controlSize(.extraLarge)
+                .padding(16)
                 
                 Spacer()
                 
@@ -63,6 +69,7 @@ struct IntervalTimerView: View {
                 }
                 .buttonStyle(.borderless)
                 .controlSize(.extraLarge)
+                .padding(16)
             }
             .onReceive(intervalTimer.timer, perform: { _ in
                 if (!intervalTimer.isPlaying) {
@@ -77,6 +84,7 @@ struct IntervalTimerView: View {
                 }
 
             })
+            .background(RoundedRectangle(cornerRadius: 64).fill(Color.gray.opacity(0.15)))
             .padding(32)
         }
         .padding()
